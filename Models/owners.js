@@ -8,7 +8,6 @@ const ownerSchema = new mongoose.Schema({
   tellphone: {
     type: Number,
     required: true,
-    // unique:true
   },
   address: {
     type: String,
