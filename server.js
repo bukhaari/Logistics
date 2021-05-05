@@ -5,8 +5,10 @@ const positionRouter = require("./Routes/position");
 const driverRouter = require("./Routes/driver");
 const carTypeRouter = require("./Routes/carType");
 const carRouter = require("./Routes/car");
+const contractRouter = require("./Routes/contractCar");
+const usertRouter = require("./Routes/user");
 const { connectDb } = require("./database/conection");
-const cors = require('cors');
+const cors = require("cors");
 const app = express();
 
 //midelwares
@@ -20,6 +22,8 @@ app.use("/api/positions", positionRouter);
 app.use("/api/drivers", driverRouter);
 app.use("/api/cartypes", carTypeRouter);
 app.use("/api/cars", carRouter);
+app.use("/api/contracts", contractRouter);
+app.use("/api/users", usertRouter);
 
 connectDb();
 

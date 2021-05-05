@@ -4,16 +4,16 @@ const path = require("path");
 
 exports.getCars = async (req, res) => {
   const cars = await Car.find()
-  .populate("owner", "fullName -_id")
-  .populate("driver", "fullName -_id")
-  .populate("type", "name -_id")
+  .populate("owner", "fullName tellphone")
+  .populate("driver", "fullName tellPhone")
+  .populate("type", "name")
 
   res.send(cars);
 };
 
 exports.getCar = async (req, res) => {
   const car = await Car.findById(req.params.id)
-  .populate("owner", "fullName -_id")
+  .populate("owner", "fullName tellphone -_id")
   .populate("driver", "fullName -_id")
   .populate("type", "name -_id");
   if (!car) return res.status(404).send("the car ID was not found!");
