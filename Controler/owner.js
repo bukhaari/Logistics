@@ -16,6 +16,7 @@ exports.createOwner = async (req, res) => {
     fullName: req.body.fullName,
     tellphone: req.body.tellphone,
     address: req.body.address,
+    date: req.body.date,
   });
 
   try {
@@ -42,6 +43,7 @@ exports.updateOwner = async (req, res) => {
     fullName: req.body.fullName,
     tellphone: req.body.tellphone,
     address: req.body.address,
+    date: req.body.date,
   };
 
   try {

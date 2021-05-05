@@ -13,6 +13,10 @@ const ownerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  date: {
+    type: Date,
+    required: true,
+  },
 });
 
 const Owner = mongoose.model("Owner", ownerSchema);
