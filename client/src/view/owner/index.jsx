@@ -4,7 +4,7 @@ import OwnerForm from "./ownerForm";
 import OwnerTable from "./ownerTable";
 import OwnerContextProvider from '../.././context/ownerContext';
 
-function Customer() {
+function Owner() {
 
   return (
     <React.Fragment>
@@ -20,4 +20,4 @@ function Customer() {
   );
 }
 
-export default Customer;
+export default Owner;
