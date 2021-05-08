@@ -11,28 +11,40 @@ const cartractCarSchema = new mongoose.Schema({
     ref: "Driver",
     required: true,
   },
-  type: {
+  cartype: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "TypeCar",
+    required: true,
+  },
+  car: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Car",
+    required: true,
+  },
+  position: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Position",
+    required: true,
+  },
+  project: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Project",
     required: true,
   },
   signName: {
     type: String,
     required: true,
   },
-  money: {
+  contractType: {
+    type: String,
+    required: true,
+  },
+  dailyMoney: {
     type: Number,
     required: true,
   },
-  details:{
+  status: {
     type: String,
-  },
-  startDate: {
-    type: Date,
-    required: true,
-  },
-  endDate: {
-    type: Date,
     required: true,
   },
 });

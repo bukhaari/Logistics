@@ -1,6 +1,6 @@
 const Driver = require("../Models/Driver");
-const fs = require("fs");
-const path = require("path");
+// const fs = require("fs");
+// const path = require("path");
 
 exports.getDrivers = async (req, res) => {
   const drivers = await Driver.find();
@@ -18,10 +18,11 @@ exports.createDriver = async (req, res) => {
     fullName: req.body.fullName,
     tellPhone: req.body.tellPhone,
     address: req.body.address,
-    licenseImage: {
-      data: fs.readFileSync(path.join("uploads/" + req.file.filename)),
-      contentType: "image/jpg",
-    },
+    date: req.body.date,
+    // licenseImage: {
+    //   data: fs.readFileSync(path.join("uploads/" + req.file.filename)),
+    //   contentType: "image/jpg",
+    // },
   });
 
   try {
@@ -45,13 +46,14 @@ exports.updateDriver = async (req, res) => {
   if (!driver) return res.status(404).send("the Driver ID was not found!");
 
   const newDriver = {
-    fullname: req.body.fullname,
+    fullName: req.body.fullName,
     tellPhone: req.body.tellPhone,
     address: req.body.address,
-    licenseImage: {
-      data: fs.readFileSync(path.join("uploads/" + req.file.filename)),
-      contentType: "image/jpg",
-    },
+    date: req.body.date,
+    // licenseImage: {
+    //   data: fs.readFileSync(path.join("uploads/" + req.file.filename)),
+    //   contentType: "image/jpg",
+    // },
   };
 
   try {

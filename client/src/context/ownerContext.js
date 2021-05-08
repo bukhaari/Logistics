@@ -117,8 +117,8 @@ const OwnerContextProvider = (props) => {
 
   // // change value of inputs accepts date
   const handleChange = (e) => {
-    setNewOwner((prevCustomer) => {
-      return { ...prevCustomer, [e.target.name]: e.target.value };
+    setNewOwner((prevOwners) => {
+      return { ...prevOwners, [e.target.name]: e.target.value };
     });
   };
 

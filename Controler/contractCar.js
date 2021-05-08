@@ -1,5 +1,4 @@
 const Contract = require("../Models/contractCar");
-const Car = require("../Models/car");
 
 exports.getContracts = async (req, res) => {
   let contracts = await Contract.find()

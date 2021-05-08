@@ -18,8 +18,12 @@ const driverSchema = new mongoose.Schema({
     minLength:0,
     maxLength:255
   },
+  date : {
+    type: Date,
+    required: true,
+  },
 
-  licenseImage: { data: Buffer, contentType: String },
+  // licenseImage: { data: Buffer, contentType: String },
   
 });
 
