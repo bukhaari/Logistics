@@ -1,9 +1,9 @@
 import React, { Component, Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
 import Loadable from "react-loadable";
-import "font-awesome/css/font-awesome.css";
-// import "mdbreact/dist/css/mdb.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
 
 import "../../node_modules/font-awesome/scss/font-awesome.scss";
 

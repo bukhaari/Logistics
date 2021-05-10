@@ -15,7 +15,7 @@ export default {
         },
       ],
     },
-    
+
     //Registration
     {
       id: "Registration",
@@ -42,7 +42,7 @@ export default {
           id: "owner-page",
           title: "Owners",
           type: "item",
-          url: "/owner",
+          url: "/owners",
           classes: "nav-item",
           icon: "fa fa-user",
         },
@@ -81,6 +81,47 @@ export default {
         },
       ],
     },
-    
-  ]
+
+    {
+      id: "VeiwReport",
+      title: "Veiw Report",
+      type: "group",
+      icon: "icon-ui",
+      children: [
+        {
+          id: "report",
+          title: "Reports",
+          type: "collapse",
+          icon: "feather icon-box",
+          children: [
+            {
+              id: "car-page",
+              title: "Cars",
+              type: "item",
+              url: "/car-report",
+            },
+            
+          ],
+        },
+      ],
+    },
+
+    {
+      id: "Settings-nav",
+      title: "Settings",
+      type: "group",
+      icon: "icon-navigation",
+      children: [
+        {
+          id: "Users-page",
+          title: "Users",
+          type: "item",
+          url: "/#",
+          classes: "nav-item",
+          icon: "fa fa-plus",
+        },
+      ],
+    },
+
+  ],
 };

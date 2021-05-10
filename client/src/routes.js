@@ -14,6 +14,7 @@ const Car = React.lazy(() => import('./view/car'));
 const Contract = React.lazy(() => import('./view/contractCar'));
 const Driver = React.lazy(() => import('./view/driver'));
 const CarType = React.lazy(() => import('./view/cartype'));
+const CarReport = React.lazy(() => import('./view/report/car'));
 
 const UIBasicButton = React.lazy(() => import('./Demo/UIElements/Basic/Button'));
 const UIBasicBadges = React.lazy(() => import('./Demo/UIElements/Basic/Badges'));
@@ -50,12 +51,13 @@ const routes = [
     { path: '/docs', exact: true, name: 'Documentation', component: OtherDocs },
     
     //System Routes
-    { path: '/owner', exact: true, name: 'Owner', component: Owner },
+    { path: '/owners', exact: true, name: 'Owner', component: Owner },
     { path: '/positions', exact: true, name: 'Position', component: Position },
     { path: '/Cars', exact: true, name: 'Position', component: Car },
     { path: '/contracts', exact: true, name: 'Position', component: Contract },
     { path: '/drivers', exact: true, name: 'Position', component: Driver },
     { path: '/type-cars', exact: true, name: 'Position', component: CarType },
+    { path: '/car-report', exact: true, name: 'CarReport', component: CarReport },
 ];
 
 export default routes;

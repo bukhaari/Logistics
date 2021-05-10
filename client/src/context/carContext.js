@@ -29,10 +29,15 @@ const CarContextProvider = (props) => {
           data.carType = d.carType.name;
           data.driver = d.driver.fullName;
           data.owner = d.owner.fullName;
+          data.ownerId = d.owner._id;
+          data.Allowner = d.owner;
+          data.ownerNumber = d.owner.tellphone;
           data._id = d._id;
           data.plate = d.plate;
           data.state = d.state;
           data.status = d.status;
+          data.rejectContract = d.rejectContract;
+          data.successContract = d.successContract;
           data.date = d.date;
           return data;
         });
@@ -143,11 +148,6 @@ const CarContextProvider = (props) => {
     const driver = Drivers.find((d) => d._id === newCar.driverId);
     const type = Types.find((t) => t._id === newCar.carTypeId);
     const owner = Owners.find((o) => o._id === newCar.ownerId);
-
-    // console.log("driver", driver.fullName);
-    // console.log("Type", type.name);
-    // console.log("owner", owner.fullName);
-    console.log("newCae", newCar);
 
     updateCar.carType = type.name;
     updateCar.driver = driver.fullName;

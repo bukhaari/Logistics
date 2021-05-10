@@ -46,23 +46,28 @@ function Owner() {
       if(owner.date === "Invalid Date") owner.date = "No date"
       owner.action = (
         <div>
-          <button
+          {/* <button
             type="button"
+            onClick={() => handleEdit(car)}
+            className="btn btn-hover-none btn-sm mr-2"
+          > */}
+          <i
+            className="fa fa-pencil text-primary mr-4"
             onClick={() => handleEdit(owner)}
-            className="btn btn-white btn-sm mr-2"
-          >
-            <i
-              className="fa fa-pencil text-primary"
-              style={{ fontSize: 20 }}
-            ></i>
-          </button>
-          <button
+            style={{ fontSize: 20, cursor: "pointer" }}
+          ></i>
+          {/* </button> */}
+          {/* <button
             type="button"
-            onClick={() => handleDelete(owner._id)}
+            onClick={() => handleDelete(car._id)}
             className="btn btn-white btn-sm"
-          >
-            <i className="fa fa-trash text-danger" style={{ fontSize: 20 }}></i>
-          </button>
+          > */}
+          <i
+            className="fa fa-trash text-danger"
+            onClick={() => handleDelete(owner._id)}
+            style={{ fontSize: 20, cursor: "pointer" }}
+          ></i>
+          {/* </button> */}
         </div>
       );
       return owner;

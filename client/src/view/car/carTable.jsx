@@ -42,6 +42,12 @@ function CarTable() {
         width: 270,
       },
       {
+        label: "Status",
+        field: "status",
+        sort: "asc",
+        width: 270,
+      },
+      {
         label: "Date",
         field: "date",
         sort: "asc",
@@ -59,26 +65,31 @@ function CarTable() {
       // if(car.date === "Invalid Date") car.date = "No date"
       car.action = (
         <div>
-          <button
+          {/* <button
             type="button"
             onClick={() => handleEdit(car)}
-            className="btn btn-white btn-sm mr-2"
-          >
-            <i
-              className="fa fa-pencil text-primary"
-              style={{ fontSize: 20 }}
-            ></i>
-          </button>
-          <button
+            className="btn btn-hover-none btn-sm mr-2"
+          > */}
+          <i
+            className="fa fa-pencil text-primary mr-4"
+            onClick={() => handleEdit(car)}
+            style={{ fontSize: 20, cursor: "pointer" }}
+          ></i>
+          {/* </button> */}
+          {/* <button
             type="button"
             onClick={() => handleDelete(car._id)}
             className="btn btn-white btn-sm"
-          >
-            <i className="fa fa-trash text-danger" style={{ fontSize: 20 }}></i>
-          </button>
+          > */}
+          <i
+            className="fa fa-trash text-danger"
+            onClick={() => handleDelete(car._id)}
+            style={{ fontSize: 20, cursor: "pointer" }}
+          ></i>
+          {/* </button> */}
         </div>
       );
-      return car.status !== "UnActive"? car:{};
+      return car;
     }),
   };
 
