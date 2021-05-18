@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
 import { Row, Col, Card, CardBody } from "reactstrap";
 import { MDBDataTable } from "mdbreact";
-import {  PositionsContext } from "../../context/positionContext";
+import { PositionsContext } from "../../context/positionContext";
 
 function PositionTable() {
-  const { Positions, handleModal, handleDelete, handleEdit } = useContext(
-    PositionsContext
-  );
+  const { Positions, handleModal, handleEdit } = useContext(PositionsContext);
 
   const TableData = {
     columns: [
@@ -37,31 +35,14 @@ function PositionTable() {
     ],
     rows: Positions.map((postion, index) => {
       let no = index + 1;
-      postion["no"]= no;
+      postion["no"] = no;
       postion.action = (
         <div>
-          {/* <button
-            type="button"
-            onClick={() => handleEdit(car)}
-            className="btn btn-hover-none btn-sm mr-2"
-          > */}
           <i
             className="fa fa-pencil text-primary mr-4"
             onClick={() => handleEdit(postion)}
             style={{ fontSize: 20, cursor: "pointer" }}
           ></i>
-          {/* </button> */}
-          {/* <button
-            type="button"
-            onClick={() => handleDelete(car._id)}
-            className="btn btn-white btn-sm"
-          > */}
-          <i
-            className="fa fa-trash text-danger"
-            onClick={() => handleDelete(postion._id)}
-            style={{ fontSize: 20, cursor: "pointer" }}
-          ></i>
-          {/* </button> */}
         </div>
       );
       return postion;

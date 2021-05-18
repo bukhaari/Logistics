@@ -95,38 +95,6 @@ const DriverContextProvider = (props) => {
     });
   };
 
-  // // Delete Data on database
-  const handleDelete = async (id) => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Did You want to deleted this Driver!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          const OriginalState = Drivers;
-          await deleteDriver(id);
-          const filterDrivers = OriginalState.filter((c) => c._id !== id);
-          setDrivers(filterDrivers);
-          Swal.fire({
-            position: "center-center",
-            icon: "success",
-            title: "Deleted Driver",
-            showConfirmButton: false,
-            timer: 700,
-          });
-        }
-      });
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404)
-        alert("The Driver ID was not found!.");
-    }
-  };
-
   // // change value of inputs accepts date
   const handleChange = (e) => {
     setNewDriver((prevDriver) => {
@@ -171,7 +139,6 @@ const DriverContextProvider = (props) => {
         handleAdd,
         handleUpdate,
         handleEdit,
-        handleDelete,
         handleDateChange,
       }}
     >

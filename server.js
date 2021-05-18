@@ -1,4 +1,6 @@
 const express = require("express");
+const cors = require("cors");
+const config = require("config");
 const bodyParser = require("body-parser");
 const ownerRouter = require("./Routes/owner");
 const positionRouter = require("./Routes/position");
@@ -7,9 +9,16 @@ const carTypeRouter = require("./Routes/carType");
 const carRouter = require("./Routes/car");
 const contractRouter = require("./Routes/contractCar");
 const usertRouter = require("./Routes/user");
+const projectRouter = require("./Routes/project");
+const statePositiontRouter = require("./Routes/statePosition");
+const authRouter = require("./Routes/auth");
 const { connectDb } = require("./database/conection");
-const cors = require("cors");
 const app = express();
+
+if (!config.get("jwtPrivateKey")) {
+  console.error("FATAL ERROR: jwtPrivateKey is not defined.");
+  process.exit(1);
+}
 
 //midelwares
 app.use(express.json());
@@ -24,6 +33,9 @@ app.use("/api/cartypes", carTypeRouter);
 app.use("/api/cars", carRouter);
 app.use("/api/contracts", contractRouter);
 app.use("/api/users", usertRouter);
+app.use("/api/projects", projectRouter);
+app.use("/api/state", statePositiontRouter);
+app.use("/api/auth", authRouter);
 
 connectDb();
 

@@ -26,15 +26,15 @@ const carSchema = new mongoose.Schema({
   },
   successContract: {
     type: Number,
-    default:0
+    default: 0,
   },
   rejectContract: {
     type: Number,
-    default:0
+    default: 0,
   },
   status: {
     type: String,
-    required: true,
+    default: "Active",
   },
   date: {
     type: Date,

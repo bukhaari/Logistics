@@ -7,19 +7,19 @@ const ProjectSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    required: true,
+    default: "Active",
   },
   requiredCar: {
     type: Number,
     required: true,
   },
-  contractCar: {
-    type: Number,
-    default:0
-  },
-  details: {
-    type: String,
-  },
+  positions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Position",
+      required: true,
+    },
+  ],
   startDate: {
     type: Date,
     required: true,

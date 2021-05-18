@@ -3,8 +3,9 @@ import {
   getPositions,
   postPosition,
   putPosition,
-  deletePosition,
+  getPosition,
 } from "../Services/positionServices";
+import { getStates } from "../Services/statePositionServices";
 import Swal from "sweetalert2";
 
 export const PositionsContext = createContext();
@@ -12,11 +13,20 @@ PositionsContext.displayName = "PositionsContext";
 
 const PositionsContextProvider = (props) => {
   const [Positions, setPositions] = useState([]);
+  const [State, setState] = useState([]);
   useEffect(() => {
     const handlePositions = async () => {
       try {
         const { data } = await getPositions();
-        setPositions(data);
+        const positionData = data.map((d) => {
+          const position = {
+            _id: d._id,
+            state: d.state.name,
+            district: d.district,
+          };
+          return position;
+        });
+        setPositions(positionData);
       } catch (error) {
         if (error.response && error.response.status === 400) {
           alert("position was not found!");
@@ -25,14 +35,34 @@ const PositionsContextProvider = (props) => {
       }
     };
     handlePositions();
-  }, []);
 
+    const handleStatePosition = async () => {
+      try {
+        const { data } = await getStates();
+        setState(data);
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          alert("position was not found!");
+          console.log(error);
+        }
+      }
+    };
+    handleStatePosition();
+  }, []);
   const [newPosition, setNewPosition] = useState({ state: "", district: "" });
 
   //// Adding data on Databse
   const handleAdd = async () => {
     try {
       const { data } = await postPosition(newPosition);
+      const { data: position } = await getPosition(data._id);
+
+      const positionData = {
+        _id: position._id,
+        state: position.state.name,
+        district: position.district,
+      };
+
       Swal.fire({
         position: "center-center",
         icon: "success",
@@ -41,7 +71,7 @@ const PositionsContextProvider = (props) => {
         timer: 1000,
       });
       setPositions((prevPositions) => {
-        return [...prevPositions, data];
+        return [...prevPositions, positionData];
       });
     } catch (ex) {
       if (ex.response && ex.response.status === 404) alert("Something wrong");
@@ -76,38 +106,6 @@ const PositionsContextProvider = (props) => {
     setNewPosition({ state: "", district: "" });
   };
 
-  // Delete Data on database
-  const handleDelete = async (id) => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Did You want to deleted this Position!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await deletePosition(id);
-          const OriginalState = Positions;
-          const filterPositions = OriginalState.filter((c) => c._id !== id);
-          setPositions(filterPositions);
-          Swal.fire({
-            position: "center-center",
-            icon: "success",
-            title: "Deleted Postion",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-        }
-      });
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404)
-        alert("The Position ID was not found!.");
-    }
-  };
-
   const handleChange = (e) => {
     setNewPosition((prevCustomer) => {
       return { ...prevCustomer, [e.target.name]: e.target.value };
@@ -121,10 +119,15 @@ const PositionsContextProvider = (props) => {
   };
 
   // This function will call into button in dataTable that display Modal and field Data.
-  const handleEdit = (Position) => {
-    var updPosition = { ...Position };
-    updPosition.date = new Date(updPosition.date);
-    setNewPosition(updPosition);
+  const handleEdit = async (position) => {
+    const { data: positionData } = await getPosition(position._id);
+    const newData = {
+      _id: positionData._id,
+      state: positionData.state._id,
+      district: positionData.district,
+    };
+    console.log(newData);
+    setNewPosition(newData);
     handleModal();
   };
 
@@ -132,13 +135,13 @@ const PositionsContextProvider = (props) => {
     <PositionsContext.Provider
       value={{
         Positions,
+        State,
         handleModal,
         viewModal,
         newPosition,
         handleChange,
         handleAdd,
         handleUpdate,
-        handleDelete,
         handleEdit,
       }}
     >

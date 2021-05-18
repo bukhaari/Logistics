@@ -94,7 +94,7 @@ function CarTable() {
         </div>
       );
 
-      if (car.status === "UnActive")
+      if (car.status === "Unactive")
         car.status = (
           <h1 style={{ fontSize: 13 }} className="badge text-white bg-danger">
             {car.status}
@@ -140,20 +140,14 @@ function CarTable() {
 
       if (car.state === "Very Good")
         car.state = (
-          <h1
-            style={{ fontSize: 13 }}
-            className="h1 badge text-white bg-info"
-          >
+          <h1 style={{ fontSize: 13 }} className="h1 badge text-white bg-info">
             {car.state}
           </h1>
         );
 
       if (car.state === "Good")
         car.state = (
-          <h1
-            style={{ fontSize: 13 }}
-            className="h1 badge text-white bg-dark"
-          >
+          <h1 style={{ fontSize: 13 }} className="h1 badge text-white bg-dark">
             {car.state}
           </h1>
         );

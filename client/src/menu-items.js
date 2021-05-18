@@ -10,7 +10,7 @@ export default {
           id: "dashboard",
           title: "Dashboard",
           type: "item",
-          url: "/dashboard/default",
+          url: "/dashboard",
           icon: "feather icon-home",
         },
       ],
@@ -55,6 +55,14 @@ export default {
           icon: "fa fa-plus",
         },
         {
+          id: "state-page",
+          title: "State",
+          type: "item",
+          url: "/state-positions",
+          classes: "nav-item",
+          icon: "fa fa-pen",
+        },
+        {
           id: "car-page",
           title: "Cars",
           type: "item",
@@ -66,11 +74,19 @@ export default {
     },
 
     {
-      id: "Contrct-nav",
-      title: "Contract",
+      id: "project-Contrct",
+      title: "Project & Contract",
       type: "group",
       icon: "icon-navigation",
       children: [
+        {
+          id: "project",
+          title: "Project",
+          type: "item",
+          url: "/projects",
+          classes: "nav-item",
+          icon: "fa fa-plus",
+        },
         {
           id: "contract-page",
           title: "Contracts",
@@ -100,7 +116,6 @@ export default {
               type: "item",
               url: "/car-report",
             },
-            
           ],
         },
       ],
@@ -122,6 +137,5 @@ export default {
         },
       ],
     },
-
   ],
 };

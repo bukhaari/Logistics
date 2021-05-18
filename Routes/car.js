@@ -7,6 +7,7 @@ router.get("/", controler.getCars);
 router.post("/", controler.createCar);
 router.get("/:id", controler.getCar);
 router.put("/:id", controler.updateCar);
+router.put("/status/:id", controler.updeSatus);
 router.delete("/:id", controler.deleteCar);
 
 module.exports = router;

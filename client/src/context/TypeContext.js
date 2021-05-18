@@ -1,10 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import {
-  getTypes,
-  postType,
-  putType,
-  deleteType,
-} from "../Services/TypeServices";
+import { getTypes, postType, putType } from "../Services/TypeServices";
 import Swal from "sweetalert2";
 
 export const TypeContext = createContext();
@@ -71,39 +66,7 @@ const TypeContextProvider = (props) => {
       if (ex.response && ex.response.status === 404) alert("Something wrong");
       setTypes(OriginalState);
     }
-    setNewType({ Tname: "" });
-  };
-
-  // Delete Data on database
-  const handleDelete = async (id) => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Did You want to deleted this Type!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await deleteType(id);
-          const OriginalState = Types;
-          const filterTypes = OriginalState.filter((c) => c._id !== id);
-          setTypes(filterTypes);
-          Swal.fire({
-            position: "center-center",
-            icon: "success",
-            title: "Deleted Type",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-        }
-      });
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404)
-        alert("The Type ID was not found!.");
-    }
+    setNewType({ name: "" });
   };
 
   const handleChange = (e) => {
@@ -136,7 +99,6 @@ const TypeContextProvider = (props) => {
         handleChange,
         handleAdd,
         handleUpdate,
-        handleDelete,
         handleEdit,
       }}
     >

@@ -4,9 +4,7 @@ import { MDBDataTable } from "mdbreact";
 import { TypeContext } from "../../context/TypeContext";
 
 function TypeTable() {
-  const { Types, handleModal, handleDelete, handleEdit } = useContext(
-    TypeContext
-  );
+  const { Types, handleModal, handleEdit } = useContext(TypeContext);
 
   const TableData = {
     columns: [
@@ -31,31 +29,14 @@ function TypeTable() {
     ],
     rows: Types.map((types, index) => {
       let no = index + 1;
-      types["no"]= no;
+      types["no"] = no;
       types.action = (
         <div>
-          {/* <button
-            type="button"
-            onClick={() => handleEdit(car)}
-            className="btn btn-hover-none btn-sm mr-2"
-          > */}
           <i
             className="fa fa-pencil text-primary mr-4"
             onClick={() => handleEdit(types)}
             style={{ fontSize: 20, cursor: "pointer" }}
           ></i>
-          {/* </button> */}
-          {/* <button
-            type="button"
-            onClick={() => handleDelete(car._id)}
-            className="btn btn-white btn-sm"
-          > */}
-          <i
-            className="fa fa-trash text-danger"
-            onClick={() => handleDelete(types._id)}
-            style={{ fontSize: 20, cursor: "pointer" }}
-          ></i>
-          {/* </button> */}
         </div>
       );
       return types;

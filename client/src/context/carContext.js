@@ -4,7 +4,7 @@ import {
   getCars,
   postCar,
   putCar,
-  deleteCar,
+  putSatatus,
 } from "../Services/carServices";
 import { getDrivers } from "../Services/driverServices";
 import { getOwners } from "../Services/ownerServices";
@@ -16,7 +16,6 @@ CarContext.displayName = "CarContext";
 
 const CarContextProvider = (props) => {
   const [Cars, setCars] = useState([]);
-  // const [UpdateCars, setUpdateCars] = useState([]);
   const [Owners, setOwners] = useState([]);
   const [Drivers, setDrivers] = useState([]);
   const [Types, setTypes] = useState([]);
@@ -98,7 +97,6 @@ const CarContextProvider = (props) => {
     ownerId: "",
     plate: "",
     state: "",
-    status: "",
     date: new Date(),
   });
 
@@ -136,7 +134,6 @@ const CarContextProvider = (props) => {
       ownerId: "",
       plate: "",
       state: "",
-      status: "",
       date: new Date(),
     });
   };
@@ -181,34 +178,48 @@ const CarContextProvider = (props) => {
       ownerId: "",
       plate: "",
       state: "",
-      status: "",
       date: new Date(),
     });
   };
 
-  // // Delete Data on database
-  const handleDelete = async (id) => {
+  const hanleUpdateStatus = async (id) => {
+    const UpdateCar = Cars.find((c) => c._id === id);
     try {
       Swal.fire({
         title: "Are you sure?",
-        text: "Did You want to deleted this Car!",
+        text: "Did You want to update Project status!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Yes, updated it!",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const OriginalState = Cars;
-          await deleteCar(id);
-          const filterCars = OriginalState.filter((c) => c._id !== id);
-          setCars(filterCars);
-          Swal.fire("Deleted!", "car has been deleted.", "success");
+          if (UpdateCar.status === "Active") {
+            UpdateCar.status = "Unactive";
+          } else if (UpdateCar.status === "Unactive") {
+            UpdateCar.status = "Active";
+          }
+          const statusData = {
+            _id: id,
+            status: UpdateCar.status,
+          };
+          await putSatatus(statusData);
+          setCars((prevProject) => {
+            return [...prevProject];
+          });
+          Swal.fire({
+            position: "center-center",
+            icon: "success",
+            title: "Updated Status",
+            showConfirmButton: false,
+            timer: 1000,
+          });
         }
       });
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
-        alert("The Car ID was not found!.");
+        alert("The project ID was not found!.");
     }
   };
 
@@ -235,7 +246,6 @@ const CarContextProvider = (props) => {
         ownerId: "",
         plate: "",
         state: "",
-        status: "",
         date: new Date(),
       });
   };
@@ -244,10 +254,10 @@ const CarContextProvider = (props) => {
   const handleEdit = async (car) => {
     const { data: carData } = await getCar(car._id);
     const newdData = {};
+    newdData._id = carData._id;
     newdData.carTypeId = carData.carType._id;
     newdData.driverId = carData.driver._id;
     newdData.ownerId = carData.owner._id;
-    newdData._id = carData._id;
     newdData.plate = carData.plate;
     newdData.state = carData.state;
     newdData.status = carData.status;
@@ -274,8 +284,8 @@ const CarContextProvider = (props) => {
         handleAdd,
         handleUpdate,
         handleEdit,
-        handleDelete,
         handleDateChange,
+        hanleUpdateStatus,
       }}
     >
       {props.children}

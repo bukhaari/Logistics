@@ -22,11 +22,12 @@ function PositionForm() {
     viewModal,
     handleModal,
     handleAdd,
+    State,
   } = useContext(PositionsContext);
 
   const statusData = ["", "Active", "UnActive"];
   // Object Desture
-  const { state, district} = newPosition;
+  const { state, district } = newPosition;
 
   // isComplate variable cheching object Empty if empty the modal doesn't close and not Add new customer or Update
   const handleSubmit = (e) => {
@@ -43,7 +44,7 @@ function PositionForm() {
 
   return (
     <Modal isOpen={viewModal} toggle={handleModal} backdrop="static" size="lg">
-      <ModalHeader toggle={handleModal}>Owner Registration</ModalHeader>
+      <ModalHeader toggle={handleModal}>Position Registration</ModalHeader>
       <ModalBody>
         <AvForm onSubmit={handleSubmit} className="needs-validation">
           <Row>
@@ -51,18 +52,28 @@ function PositionForm() {
               <FormGroup>
                 <Label htmlFor="validationState">State</Label>
                 <AvField
+                  type="select"
                   name="state"
-                  placeholder="Enter State"
-                  type="text"
                   value={state}
                   onChange={(e) => handleChange(e)}
-                  errorMessage="please Enter state"
+                  errorMessage="Please Select state"
                   className="form-control"
                   validate={{ required: { value: true } }}
                   id="validationState"
-                />
+                  helpMessage={state === "" ? "Select state position" : ""}
+                >
+                  <option></option>
+                  {State.map((data) => {
+                    return (
+                      <option key={data._id} value={data._id}>
+                        {data.name}
+                      </option>
+                    );
+                  })}
+                </AvField>
               </FormGroup>
             </Col>
+
             <Col md="6">
               <FormGroup>
                 <Label htmlFor="validationDistrict">District</Label>

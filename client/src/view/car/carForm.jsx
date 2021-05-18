@@ -31,11 +31,10 @@ function CarForm() {
     handleAdd,
   } = useContext(CarContext);
 
-  const statusData = ["", "Active", "UnActive"];
-  const stateData = ["", "Excellent", "Very Good", "Good", "Poor", "Very Poor"];
+  const stateData = ["", "Excellent", "Good", "Poor"];
 
   // Object Desture
-  const { carTypeId, driverId, ownerId, plate, state, status, date } = newCar;
+  const { carTypeId, driverId, ownerId, plate, state, date } = newCar;
 
   // isComplate variable cheching object Empty if empty the modal doesn't close and not Add new customer or Update
   const handleSubmit = (e) => {
@@ -147,7 +146,7 @@ function CarForm() {
                 />
               </FormGroup>
             </Col>
-            <Col md="4">
+            <Col md="6">
               <FormGroup>
                 <Label htmlFor="validationState">State</Label>
                 <AvField
@@ -167,28 +166,7 @@ function CarForm() {
                 </AvField>
               </FormGroup>
             </Col>
-
-            <Col md="4">
-              <FormGroup>
-                <Label htmlFor="validationStatus">Status</Label>
-                <AvField
-                  type="select"
-                  name="status"
-                  value={status}
-                  onChange={(e) => handleChange(e)}
-                  errorMessage="Please Select the status"
-                  className="form-control"
-                  validate={{ required: { value: true } }}
-                  id="validationStatus"
-                  helpMessage={status === "" ? "Select car status" : ""}
-                >
-                  {statusData.map((data, index) => {
-                    return <option key={index}>{data}</option>;
-                  })}
-                </AvField>
-              </FormGroup>
-            </Col>
-            <Col md="4">
+            <Col md="6">
               <FormGroup>
                 <Label>Date</Label>
                 <InputGroup>

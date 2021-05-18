@@ -4,9 +4,7 @@ import { MDBDataTable } from "mdbreact";
 import { OwnerContext } from "./../../context/ownerContext";
 
 function Owner() {
-  const { Owners, handleModal, handleDelete, handleEdit } = useContext(
-    OwnerContext
-  );
+  const { Owners, handleModal, handleEdit } = useContext(OwnerContext);
 
   const TableData = {
     columns: [
@@ -42,32 +40,15 @@ function Owner() {
       },
     ],
     rows: Owners.map((owner) => {
-        owner.date = new Date(owner.date).toLocaleDateString();
-      if(owner.date === "Invalid Date") owner.date = "No date"
+      owner.date = new Date(owner.date).toLocaleDateString();
+      if (owner.date === "Invalid Date") owner.date = "No date";
       owner.action = (
         <div>
-          {/* <button
-            type="button"
-            onClick={() => handleEdit(car)}
-            className="btn btn-hover-none btn-sm mr-2"
-          > */}
           <i
             className="fa fa-pencil text-primary mr-4"
             onClick={() => handleEdit(owner)}
             style={{ fontSize: 20, cursor: "pointer" }}
           ></i>
-          {/* </button> */}
-          {/* <button
-            type="button"
-            onClick={() => handleDelete(car._id)}
-            className="btn btn-white btn-sm"
-          > */}
-          <i
-            className="fa fa-trash text-danger"
-            onClick={() => handleDelete(owner._id)}
-            style={{ fontSize: 20, cursor: "pointer" }}
-          ></i>
-          {/* </button> */}
         </div>
       );
       return owner;

@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  fullName: {
+  name: {
     type: String,
     required: true,
-    minlength: 2,
+    minlength: 5,
     maxlength: 50,
   },
   email: {
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 1024,
   },
-  isAdmin: Boolean,
+  // isAdmin: Boolean,
 });
 
 const User = mongoose.model("User", userSchema);

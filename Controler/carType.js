@@ -38,14 +38,10 @@ exports.updateCarType = async (req, res) => {
 
   const newCarType = {
     name: req.body.name,
-    
   };
 
   try {
-    const result = await CarType.updateOne(
-      { _id: req.params.id },
-      newCarType
-    );
+    const result = await CarType.updateOne({ _id: req.params.id }, newCarType);
     res.json(result);
   } catch (ex) {
     for (feild in ex.errors) res.send(ex.errors[feild].message);

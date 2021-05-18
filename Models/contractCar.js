@@ -11,7 +11,7 @@ const cartractCarSchema = new mongoose.Schema({
     ref: "Driver",
     required: true,
   },
-  cartype: {
+  carType: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "TypeCar",
     required: true,
@@ -45,7 +45,7 @@ const cartractCarSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    required: true,
+    default: "Active",
   },
 });
 

@@ -4,9 +4,8 @@ import { MDBDataTable } from "mdbreact";
 import { CarContext } from "../../context/carContext";
 
 function CarTable() {
-  const { Cars, handleModal, handleDelete, handleEdit } = useContext(
-    CarContext
-  );
+  const { Cars, handleModal, hanleUpdateStatus, handleEdit } =
+    useContext(CarContext);
 
   const TableData = {
     date: new Date(),
@@ -64,29 +63,19 @@ function CarTable() {
       car.date = new Date(car.date).toLocaleDateString();
       // if(car.date === "Invalid Date") car.date = "No date"
       car.action = (
-        <div>
-          {/* <button
-            type="button"
-            onClick={() => handleEdit(car)}
-            className="btn btn-hover-none btn-sm mr-2"
-          > */}
+        <div className="d-flex">
           <i
             className="fa fa-pencil text-primary mr-4"
             onClick={() => handleEdit(car)}
             style={{ fontSize: 20, cursor: "pointer" }}
           ></i>
-          {/* </button> */}
-          {/* <button
-            type="button"
-            onClick={() => handleDelete(car._id)}
-            className="btn btn-white btn-sm"
-          > */}
-          <i
-            className="fa fa-trash text-danger"
-            onClick={() => handleDelete(car._id)}
-            style={{ fontSize: 20, cursor: "pointer" }}
-          ></i>
-          {/* </button> */}
+          <h5
+            className="text-white p-1 rounded bg-danger"
+            onClick={() => hanleUpdateStatus(car._id)}
+            style={{ fontSize: 15, cursor: "pointer" }}
+          >
+            {car.status === "Unactive" ? "Actived" : "Deactived"}
+          </h5>
         </div>
       );
       return car;

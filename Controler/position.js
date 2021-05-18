@@ -1,12 +1,12 @@
 const Position = require("../Models/position");
 
 exports.getPositions = async (req, res) => {
-  const positions = await Position.find();
+  const positions = await Position.find().populate("state");
   res.send(positions);
 };
 
 exports.getPosition = async (req, res) => {
-  const position = await Position.findById(req.params.id);
+  const position = await Position.findById(req.params.id).populate("state");
   if (!position) return res.status(404).send("the Position ID was not found!");
   res.send(position);
 };

@@ -2,17 +2,23 @@ const Contract = require("../Models/contractCar");
 
 exports.getContracts = async (req, res) => {
   let contracts = await Contract.find()
-    .populate("owner", "fullName tellphone")
+    .populate("owner")
     .populate("driver", "fullName tellPhone")
-    .populate("type", "name");
+    .populate("project")
+    .populate("position")
+    .populate("car")
+    .populate("carType", "name");
   res.send(contracts);
 };
 
 exports.getContract = async (req, res) => {
   const contract = await Contract.findById(req.params.id)
-    .populate("owner", "fullName tellphone")
+    .populate("owner")
     .populate("driver", "fullName tellPhone")
-    .populate("type", "name");
+    .populate("project")
+    .populate("position")
+    .populate("car")
+    .populate("carType", "name");
 
   if (!contract) return res.status(404).send("the Contract ID was not found!");
   res.send(contract);
@@ -22,12 +28,13 @@ exports.createContract = async (req, res) => {
   const contract = new Contract({
     owner: req.body.ownerId,
     driver: req.body.driverId,
-    type: req.body.typeId,
+    carType: req.body.carTypeId,
+    car: req.body.carId,
+    project: req.body.projectId,
+    position: req.body.positionId,
     signName: req.body.signName,
-    money: req.body.money,
-    details: req.body.details,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate
+    contractType: req.body.contractType,
+    dailyMoney: req.body.dailyMoney,
   });
 
   try {
@@ -53,18 +60,34 @@ exports.updateContract = async (req, res) => {
   const newContract = {
     owner: req.body.ownerId,
     driver: req.body.driverId,
-    type: req.body.typeId,
+    carType: req.body.carTypeId,
+    car: req.body.carId,
+    project: req.body.projectId,
+    position: req.body.positionId,
     signName: req.body.signName,
-    money: req.body.money,
-    details: req.body.details,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate
+    contractType: req.body.contractType,
+    dailyMoney: req.body.dailyMoney,
   };
 
   try {
     const result = await Contract.updateOne(
       { _id: req.params.id },
       newContract
+    );
+    res.json(result);
+  } catch (ex) {
+    for (feild in ex.errors) res.send(ex.errors[feild].message);
+  }
+};
+
+exports.updeSatus = async (req, res) => {
+  const contract = await Contract.findById(req.params.id);
+  if (!contract) return res.status(404).send("the Contract ID was not found!");
+
+  try {
+    const result = await Contract.updateOne(
+      { _id: req.params.id },
+      { status: req.body.status }
     );
     res.json(result);
   } catch (ex) {

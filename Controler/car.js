@@ -26,7 +26,6 @@ exports.createCar = async (req, res) => {
     owner: req.body.ownerId,
     plate: req.body.plate,
     state: req.body.state,
-    status: req.body.status,
     date: req.body.date,
     // bookImage: {
     //   data: fs.readFileSync(path.join("uploads/" + req.file.licenseImage)),
@@ -60,7 +59,6 @@ exports.updateCar = async (req, res) => {
     owner: req.body.ownerId,
     plate: req.body.plate,
     state: req.body.state,
-    status: req.body.status,
     date: req.body.date,
     // bookImage: {
     //   data: fs.readFileSync(path.join("uploads/" + req.file.licenseImage)),
@@ -70,6 +68,21 @@ exports.updateCar = async (req, res) => {
 
   try {
     const result = await Car.updateOne({ _id: req.params.id }, newCar);
+    res.json(result);
+  } catch (ex) {
+    for (feild in ex.errors) res.send(ex.errors[feild].message);
+  }
+};
+
+exports.updeSatus = async (req, res) => {
+  const car = await Car.findById(req.params.id);
+  if (!car) return res.status(404).send("the Car ID was not found!");
+
+  try {
+    const result = await Car.updateOne(
+      { _id: req.params.id },
+      { status: req.body.status }
+    );
     res.json(result);
   } catch (ex) {
     for (feild in ex.errors) res.send(ex.errors[feild].message);

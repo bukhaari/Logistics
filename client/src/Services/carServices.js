@@ -24,3 +24,9 @@ export function putCar(car) {
   delete body.__v;
   return http.put(epiEndPoint + "/" + car._id, body);
 }
+
+export function putSatatus(status) {
+  const body = { ...status };
+  delete body._id;
+  return http.put(epiEndPoint + "/status/" + status._id, body);
+}

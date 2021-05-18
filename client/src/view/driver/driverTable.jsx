@@ -4,9 +4,7 @@ import { MDBDataTable } from "mdbreact";
 import { DriverContext } from "../../context/driverContext";
 
 function Owner() {
-  const { Drivers, handleModal, handleDelete, handleEdit } = useContext(
-    DriverContext
-  );
+  const { Drivers, handleModal, handleEdit } = useContext(DriverContext);
 
   const TableData = {
     columns: [
@@ -46,28 +44,11 @@ function Owner() {
       // if(driver.date === "Invalid Date") driver.date = "No date"
       driver.action = (
         <div>
-          {/* <button
-            type="button"
-            onClick={() => handleEdit(car)}
-            className="btn btn-hover-none btn-sm mr-2"
-          > */}
           <i
             className="fa fa-pencil text-primary mr-4"
             onClick={() => handleEdit(driver)}
             style={{ fontSize: 20, cursor: "pointer" }}
           ></i>
-          {/* </button> */}
-          {/* <button
-            type="button"
-            onClick={() => handleDelete(car._id)}
-            className="btn btn-white btn-sm"
-          > */}
-          <i
-            className="fa fa-trash text-danger"
-            onClick={() => handleDelete(driver._id)}
-            style={{ fontSize: 20, cursor: "pointer" }}
-          ></i>
-          {/* </button> */}
         </div>
       );
       return driver;
