@@ -6,19 +6,19 @@ const ProjectSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: String,
-    default: "Active",
+    type: Boolean,
+    default: true,
   },
   requiredCar: {
     type: Number,
     required: true,
   },
   positions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Position",
-      required: true,
-    },
+    // {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Position",
+    //   required: true,
+    // },
   ],
   startDate: {
     type: Date,
@@ -27,6 +27,10 @@ const ProjectSchema = new mongoose.Schema({
   endDate: {
     type: Date,
     required: true,
+  },
+  isComplate: {
+    type: Boolean,
+    default: false,
   },
 });
 

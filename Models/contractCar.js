@@ -35,6 +35,10 @@ const cartractCarSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  signNumber: {
+    type: Number,
+    required: true,
+  },
   contractType: {
     type: String,
     required: true,
@@ -44,8 +48,8 @@ const cartractCarSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: String,
-    default: "Active",
+    type: Boolean,
+    default: true,
   },
 });
 

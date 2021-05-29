@@ -4,9 +4,11 @@ import {
   postProject,
   putProject,
   putSatatus,
+  complateProject,
 } from "../Services/projectServices";
 import { getPositions } from "../Services/positionServices";
 import Swal from "sweetalert2";
+import _ from "lodash";
 
 export const ProjectContext = createContext();
 ProjectContext.displayName = "ProjectContext";
@@ -32,23 +34,26 @@ const ProjectContextProvider = (props) => {
     const handleProject = async () => {
       try {
         const { data } = await getProjects();
-        const projectview = data.map((d) => {
-          const project = {
-            status: d.status,
-            name: d.name,
-            positions: d.positions.map((p) => {
-              return position.data.find((pos) => {
-                if (p._id === pos._id) return pos;
-              });
-            }),
-            startDate: d.startDate,
-            endDate: d.endDate,
-            requiredCar: d.requiredCar,
-          };
-          return project;
-        });
+        // const projectview = data.map((d) => {
+        //   const project = {
+        //     _id: d._id,
+        //     status: d.status,
+        //     isComplate: d.isComplate,
+        //     name: d.name,
+        //     positions: d.positions,
+        //     // .map((p) => {
+        //     //   return position.data.find((pos) => {
+        //     //     if (p._id === pos._id) return pos;
+        //     //   });
+        //     // }),
+        //     startDate: d.startDate,
+        //     endDate: d.endDate,
+        //     requiredCar: d.requiredCar,
+        //   };
+        //   return project;
+        // });
 
-        setProjects(projectview);
+        setProjects(data);
       } catch (error) {
         if (error.response && error.response.status === 400) {
           alert("Projects was not found!");
@@ -72,6 +77,17 @@ const ProjectContextProvider = (props) => {
   // //// Adding data on Databse
   const handleAdd = async () => {
     try {
+      const positionProject = Positions.find((p) => {
+        if (p._id === newProject.positions.label) return;
+      });
+      console.log(positionProject);
+      // const postData = {
+      //   name: newProject.name,
+      //   requiredCar: newProject.requiredCar,
+      //   startDate: newProject.startDate,
+      //   endDate: newProject.endDate,
+      //   positions: positionProject,
+      // };
       const { data } = await postProject(newProject);
       Swal.fire({
         position: "center-center",
@@ -109,10 +125,10 @@ const ProjectContextProvider = (props) => {
         confirmButtonText: "Yes, updated it!",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          if (UpdateProject.status === "Active") {
-            UpdateProject.status = "Unactive";
-          } else if (UpdateProject.status === "Unactive") {
-            UpdateProject.status = "Active";
+          if (UpdateProject.status === true) {
+            UpdateProject.status = false;
+          } else if (UpdateProject.status === false) {
+            UpdateProject.status = true;
           }
           const statusData = {
             _id: id,
@@ -136,6 +152,51 @@ const ProjectContextProvider = (props) => {
         alert("The project ID was not found!.");
     }
   };
+
+  const hanlecomplateProject = async (id) => {
+    const UpdateProject = Projects.find((c) => c._id === id);
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Did You want to Complate Project!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Complated it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          if (UpdateProject.isComplate === false) {
+            UpdateProject.isComplate = true;
+            UpdateProject.status = false;
+          } else if (UpdateProject.isComplate === true) {
+            UpdateProject.isComplate = false;
+            UpdateProject.status = true;
+          }
+          const complateData = {
+            _id: id,
+            isComplate: UpdateProject.isComplate,
+            status: UpdateProject.status,
+          };
+          await complateProject(complateData);
+          setProjects((prevProject) => {
+            return [...prevProject];
+          });
+          Swal.fire({
+            position: "center-center",
+            icon: "success",
+            title: "Complated Project!",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        }
+      });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        alert("The project ID was not found!.");
+    }
+  };
+
   // // update data on Databse
   const handleUpdate = async () => {
     const OriginalState = Projects;
@@ -144,6 +205,7 @@ const ProjectContextProvider = (props) => {
     UpdateProject.requiredCar = newProject.requiredCar;
     UpdateProject.startDate = newProject.startDate;
     UpdateProject.endDate = newProject.endDate;
+    UpdateProject.endDate = newProject.positions;
     setProjects((prevProject) => {
       return [...prevProject];
     });
@@ -236,6 +298,7 @@ const ProjectContextProvider = (props) => {
         handleEndDateChange,
         handleChangePositions,
         hanleUpdateStatus,
+        hanlecomplateProject,
       }}
     >
       {props.children}

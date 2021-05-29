@@ -33,7 +33,7 @@ function CustomerForm() {
 
   let optionGroup = Positions.map((p) => {
     return {
-      label: p.state.name,
+      label: `${p.district}, ${p.state.name}`,
       value: p._id,
     };
   });
@@ -116,33 +116,6 @@ function CustomerForm() {
                 </InputGroup>
               </FormGroup>
             </Col>
-
-            {/* <Col md="6">
-              <FormGroup>
-                <Label htmlFor="validationPositions">Positions</Label>
-                <AvField
-                  type="select"
-                  name="positions"
-                  multiple
-                  value={positions}
-                  onChange={(e) => handleChangePositions(e)}
-                  errorMessage="Please Select the positions"
-                  className="form-control"
-                  validate={{ required: { value: true } }}
-                  id="validationPositions"
-                  helpMessage={positions === "" ? "Select car status" : ""}
-                >
-                  {Positions.map((data) => {
-                    return (
-                      <option key={data._id} value={data._id}>
-                        {data.district}, {data.state},
-                      </option>
-                    );
-                  })}
-                </AvField>
-              </FormGroup>
-            </Col> */}
-
             <Col md="6">
               <FormGroup>
                 <Label htmlFor="validationPositions">Positions</Label>

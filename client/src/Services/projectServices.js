@@ -28,3 +28,9 @@ export function putSatatus(status) {
   delete body._id;
   return http.put(epiEndPoint + "/status/" + status._id, body);
 }
+
+export function complateProject(complate) {
+  const body = { ...complate };
+  delete body._id;
+  return http.put(epiEndPoint + "/complate/" + complate._id, body);
+}

@@ -16,7 +16,7 @@ function Positions({ viewModal, handleModal, Positions }) {
             {Positions.map((p, index) => (
               <div key={index}>
                 <ul className="list-group">
-                  <li className="list-group-item">{p.name}</li>
+                  <li className="list-group-item">{p}</li>
                 </ul>
               </div>
             ))}

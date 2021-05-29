@@ -61,7 +61,7 @@ function CarTable() {
     rows: Contracts.map((contract) => {
       contract.startDate = new Date(contract.startDate).toLocaleDateString();
       contract.endDate = new Date(contract.endDate).toLocaleDateString();
-      contract.adrress = `${contract.position.district}, ${contract.position.state}`;
+      contract.adrress = `${contract.position.district}, ${contract.position.state.name}`;
       contract.action = (
         <div className="d-flex">
           <i
@@ -74,7 +74,7 @@ function CarTable() {
             onClick={() => hanleUpdateStatus(contract._id)}
             style={{ fontSize: 15, cursor: "pointer" }}
           >
-            {contract.status === "Unactive" ? "Actived" : "Deactived"}
+            {contract.status === false ? " Deactived" : "Actived"}
           </h5>
         </div>
       );

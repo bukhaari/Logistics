@@ -10,6 +10,7 @@ import { getPositions } from "../Services/positionServices";
 import { getProjects } from "../Services/projectServices";
 import { getCars } from "../Services/carServices";
 import Swal from "sweetalert2";
+import _ from "lodash";
 
 export const ContractContext = createContext();
 ContractContext.displayName = "ContractContext";
@@ -21,26 +22,51 @@ const ContractContextProvider = (props) => {
   const [Positions, setPositions] = useState([]);
   const [AllPositions, setAllPositions] = useState([]);
   useEffect(() => {
+    var positions;
+    const handleAllPositions = async () => {
+      try {
+        positions = await getPositions();
+        setAllPositions(positions.data);
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          alert("AllPositions was not found!");
+          console.log(error);
+        }
+      }
+    };
+    handleAllPositions();
+
     const handleContract = async () => {
       try {
         const { data } = await getContracts();
-        const ContractData = data.map((d) => {
-          const data = {};
-          data._id = d._id;
-          data.owner = d.owner.fullName;
-          data.driver = d.driver.fullName;
-          data.carType = d.carType.name;
-          data.carPlate = d.car.plate;
-          data.projectName = d.project.name;
-          data.startDate = d.project.startDate;
-          data.endDate = d.project.endDate;
-          data.position = d.position;
-          data.signName = d.signName;
-          data.contractType = d.contractType;
-          data.dailyMoney = d.dailyMoney;
-          data.status = d.status;
-          return data;
-        });
+        const ContractData = data
+          .map((d) => {
+            const data = {
+              _id: d._id,
+              owner: d.owner.fullName,
+              driver: d.driver.fullName,
+              carType: d.carType.name,
+              carPlate: d.car.plate,
+              projectName: d.project.name,
+              startDate: d.project.startDate,
+              endDate: d.project.endDate,
+              position: positions.data.find((p) => {
+                if (p._id === d.position._id) return p;
+              }),
+              signName: d.signName,
+              contractType: d.contractType,
+              dailyMoney: d.dailyMoney,
+              status: d.status,
+              isComplate: d.project.isComplate,
+              projectStatus: d.project.status,
+            };
+
+            return data;
+          })
+          .filter((d) => {
+            console.log("d", d);
+            if (d.isComplate === false && d.projectStatus === true) return d;
+          });
         setContracts(ContractData);
       } catch (error) {
         if (error.response && error.response.status === 400) {
@@ -54,7 +80,10 @@ const ContractContextProvider = (props) => {
     const handleProjects = async () => {
       try {
         const { data } = await getProjects();
-        setProjects(data);
+        const project = data.filter((d) => {
+          if (d.isComplate === false && d.status === true) return d;
+        });
+        setProjects(project);
       } catch (error) {
         if (error.response && error.response.status === 400) {
           alert("Projects was not found!");
@@ -76,39 +105,32 @@ const ContractContextProvider = (props) => {
       }
     };
     handleCars();
-
-    const handleAllPositions = async () => {
-      try {
-        const { data } = await getPositions();
-        setAllPositions(data);
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          alert("AllPositions was not found!");
-          console.log(error);
-        }
-      }
-    };
-    handleAllPositions();
   }, []);
 
   const [newContract, setNewContract] = useState({
     dailyMoney: "",
     contractType: "",
     signName: "",
+    signNumber: "",
     projectId: "",
     carId: "",
     positionId: "",
   });
 
+  // only Positions
   useEffect(() => {
     const handlePosition = () => {
       const project = Projects.filter((pro) => {
         if (pro._id === newContract.projectId) return pro;
       });
-      const position = project.map((pro) => {
-        return pro.positions;
-      });
-      setPositions(position[0]);
+
+      const Projectposition = project
+        .map((pro) => pro.positions)
+        .find((p) => {
+          return p;
+        });
+
+      setPositions(Projectposition);
     };
     handlePosition();
   }, [newContract.projectId]);
@@ -128,6 +150,7 @@ const ContractContextProvider = (props) => {
       projectId: newContract.projectId,
       positionId: newContract.positionId,
       signName: newContract.signName,
+      signNumber: newContract.signNumber,
       contractType: newContract.contractType,
       dailyMoney: newContract.dailyMoney,
       status: newContract.status,
@@ -147,6 +170,7 @@ const ContractContextProvider = (props) => {
         endDate: Contract.project.endDate,
         position: Contract.position,
         signName: Contract.signName,
+        signNumber: Contract.signNumber,
         contractType: Contract.contractType,
         dailyMoney: Contract.dailyMoney,
         status: Contract.status,
@@ -169,6 +193,7 @@ const ContractContextProvider = (props) => {
       dailyMoney: "",
       contractType: "",
       signName: "",
+      signNumber: "",
       projectId: "",
       carId: "",
       positionId: "",
@@ -193,7 +218,6 @@ const ContractContextProvider = (props) => {
       if (c._id === SeachPosition.positionId) return c;
     });
 
-    console.log(project.name);
     // Maching data
     const UpdatetData = {
       _id: newContract._id,
@@ -204,6 +228,7 @@ const ContractContextProvider = (props) => {
       projectId: newContract.projectId,
       positionId: newContract.positionId,
       signName: newContract.signName,
+      signNumber: newContract.signNumber,
       contractType: newContract.contractType,
       dailyMoney: newContract.dailyMoney,
       status: newContract.status,
@@ -217,6 +242,7 @@ const ContractContextProvider = (props) => {
     viewContract.projectName = project.name;
     viewContract.position = position;
     viewContract.signName = newContract.signName;
+    viewContract.signNumber = newContract.signNumber;
     viewContract.contractType = newContract.contractType;
     viewContract.dailyMoney = newContract.dailyMoney;
     viewContract.status = newContract.status;
@@ -244,6 +270,7 @@ const ContractContextProvider = (props) => {
       dailyMoney: "",
       contractType: "",
       signName: "",
+      signNumber: "",
       projectId: "",
       carId: "",
       positionId: "",
@@ -263,10 +290,10 @@ const ContractContextProvider = (props) => {
         confirmButtonText: "Yes, updated it!",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          if (UpdateContract.status === "Active") {
-            UpdateContract.status = "Unactive";
-          } else if (UpdateContract.status === "Unactive") {
-            UpdateContract.status = "Active";
+          if (UpdateContract.status === true) {
+            UpdateContract.status = false;
+          } else if (UpdateContract.status === false) {
+            UpdateContract.status = true;
           }
           const statusData = {
             _id: id,
@@ -307,6 +334,7 @@ const ContractContextProvider = (props) => {
         dailyMoney: "",
         contractType: "",
         signName: "",
+        signNumber: "",
         projectId: "",
         carId: "",
         positionId: "",
@@ -321,6 +349,7 @@ const ContractContextProvider = (props) => {
       dailyMoney: contractData.dailyMoney,
       contractType: contractData.contractType,
       signName: contractData.signName,
+      signNumber: contractData.signNumber,
       positionId: contractData.position._id,
       projectId: contractData.project._id,
       carId: contractData.car._id,

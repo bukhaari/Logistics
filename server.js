@@ -1,6 +1,8 @@
+require("express-async-errors");
 const express = require("express");
 const cors = require("cors");
 const config = require("config");
+const error = require("./Midleware/error");
 const bodyParser = require("body-parser");
 const ownerRouter = require("./Routes/owner");
 const positionRouter = require("./Routes/position");
@@ -36,6 +38,8 @@ app.use("/api/users", usertRouter);
 app.use("/api/projects", projectRouter);
 app.use("/api/state", statePositiontRouter);
 app.use("/api/auth", authRouter);
+
+app.use(error);
 
 connectDb();
 

@@ -5,11 +5,15 @@ import { ProjectContext } from "../../context/projectContext";
 import ProjectPosition from "./projectPositions";
 
 function Project() {
-  const { Projects, handleModal, hanleUpdateStatus, handleEdit } =
-    useContext(ProjectContext);
+  const {
+    Projects,
+    handleModal,
+    hanleUpdateStatus,
+    handleEdit,
+    hanlecomplateProject,
+  } = useContext(ProjectContext);
 
   // // Modal functionality
-
   useEffect(() => {
     if (viewModal === false) {
       Positions.length = 0;
@@ -18,11 +22,9 @@ function Project() {
   const [Positions, setPositions] = useState([]);
   const handlePosition = (data) => {
     data.map((d) => {
-      let isCheck = Positions.includes(d.state);
+      let isCheck = Positions.includes(d.label);
       if (isCheck === false) {
-        // setPositions([...Positions, d.state]);
-        Positions.push(d.state);
-        // console.log(d);
+        Positions.push(d.label);
       }
     });
   };
@@ -30,8 +32,6 @@ function Project() {
   const [viewModal, setModal] = useState(false);
   const handleModalPosition = () => {
     setModal(!viewModal);
-
-    // if (viewModal === false) Positions.length = 0;
   };
 
   const TableData = {
@@ -96,16 +96,25 @@ function Project() {
             onClick={() => handleEdit(project)}
             style={{ fontSize: 20, cursor: "pointer" }}
           ></i>
+
           <h5
             className="text-white p-1 rounded bg-danger"
             onClick={() => hanleUpdateStatus(project._id)}
             style={{ fontSize: 15, cursor: "pointer" }}
           >
-            {project.status === "Unactive" ? "Actived" : "Deactived"}
+            {project.status === false ? " Deactived" : "Actived"}
+          </h5>
+
+          <h5
+            className="text-white p-1 rounded bg-info ml-3"
+            onClick={() => hanlecomplateProject(project._id)}
+            style={{ fontSize: 15, cursor: "pointer" }}
+          >
+            Complete
           </h5>
         </div>
       );
-      return project;
+      return project.isComplate === true ? {} : project;
     }),
   };
 

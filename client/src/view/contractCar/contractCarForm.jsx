@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Row,
   Col,
@@ -29,8 +29,15 @@ function CarForm() {
   const Type = ["", "Go", "Go and Back", "Daily"];
 
   // Object Desture
-  const { dailyMoney, contractType, signName, projectId, carId, positionId } =
-    newContract;
+  const {
+    dailyMoney,
+    contractType,
+    signName,
+    signNumber,
+    projectId,
+    carId,
+    positionId,
+  } = newContract;
 
   // isComplate variable cheching object Empty if empty the modal doesn't close and not Add new customer or Update
   const handleSubmit = (e) => {
@@ -104,7 +111,7 @@ function CarForm() {
 
             <Col md="6">
               <FormGroup>
-                <Label htmlFor="validationProjectId">Positions</Label>
+                <Label htmlFor="validationpositionId">Positions</Label>
                 <AvField
                   type="select"
                   name="positionId"
@@ -113,15 +120,15 @@ function CarForm() {
                   errorMessage="Please Select Positions"
                   className="form-control"
                   validate={{ required: { value: true } }}
-                  id="validationProjectId"
+                  id="validationpositionId"
                   helpMessage={positionId === "" ? "Select Positions" : ""}
                 >
                   <option></option>
                   {Positions
                     ? Positions.map((data) => {
                         return (
-                          <option key={data._id} value={data._id}>
-                            {`${data.district}, ${data.state}`}
+                          <option key={data.value} value={data.value}>
+                            {`${data.label}`}
                           </option>
                         );
                       })
@@ -129,29 +136,12 @@ function CarForm() {
                 </AvField>
               </FormGroup>
             </Col>
-
-            <Col md="6">
-              <FormGroup>
-                <Label htmlFor="validationSignName">Sign Name</Label>
-                <AvField
-                  placeholder="Enter Sign Name"
-                  type="text"
-                  name="signName"
-                  value={signName}
-                  onChange={(e) => handleChange(e)}
-                  errorMessage="Please Enter Sign Name"
-                  className="form-control"
-                  validate={{ required: { value: true } }}
-                  id="validationSignName"
-                />
-              </FormGroup>
-            </Col>
             <Col md="6">
               <FormGroup>
                 <Label htmlFor="validationDailyMoney">Daily Money</Label>
                 <AvField
                   placeholder="Enter Daily Money"
-                  type="text"
+                  type="number"
                   name="dailyMoney"
                   value={dailyMoney}
                   onChange={(e) => handleChange(e)}
@@ -162,7 +152,42 @@ function CarForm() {
                 />
               </FormGroup>
             </Col>
-            <Col md="6">
+            <Col md="4">
+              <FormGroup>
+                <Label htmlFor="validationSignatureNumber">
+                  Signature Number
+                </Label>
+                <AvField
+                  placeholder="Enter Signature"
+                  type="number"
+                  name="signNumber"
+                  value={signNumber}
+                  onChange={(e) => handleChange(e)}
+                  errorMessage="Please Enter Signature Number"
+                  className="form-control"
+                  validate={{ required: { value: true } }}
+                  id="validationSignatureNumber"
+                />
+              </FormGroup>
+            </Col>
+
+            <Col md="4">
+              <FormGroup>
+                <Label htmlFor="validationSignName">Signature Name</Label>
+                <AvField
+                  placeholder="Enter Signature"
+                  type="text"
+                  name="signName"
+                  value={signName}
+                  onChange={(e) => handleChange(e)}
+                  errorMessage="Please Enter signature Name"
+                  className="form-control"
+                  validate={{ required: { value: true } }}
+                  id="validationSignName"
+                />
+              </FormGroup>
+            </Col>
+            <Col md="4">
               <FormGroup>
                 <Label htmlFor="validationContractType">contract Type</Label>
                 <AvField

@@ -1,8 +1,5 @@
 const User = require("../Models/user");
 const Joi = require("joi");
-const jwt = require("jsonwebtoken");
-const _ = require("lodash");
-const config = require("config");
 
 exports.login = async (req, res) => {
   const { error } = ValidateAuth(req.body);
@@ -14,10 +11,7 @@ exports.login = async (req, res) => {
   if (user.password !== req.body.password)
     return res.status(400).send("Inavlid email or password.");
 
-  const token = jwt.sign(
-    _.pick(user, ["_id", "name", "email"]),
-    config.get("jwtPrivateKey")
-  );
+  const token = user.generateAuthToken();
   res.send(token);
 };
 

@@ -1,22 +1,30 @@
 const Project = require("../Models/project");
-const auth = require("../Midleware/auth");
 
 exports.getProjects = async (req, res) => {
-  await Project.find()
-    .populate("positions")
-    .exec(function (err, project) {
-      res.json(project);
-    });
+  // await Project.find()
+  //   .populate("positions")
+  //   .exec(function (err, project) {
+  //     res.json(project);
+  //   });
+  const projects = await Project.find();
+  if (!projects) return res.status(404).send("Project Id was not found.");
+
+  res.json(projects);
 };
 
 exports.getProject = async (req, res) => {
-  await Project.findById(req.params.id)
-    .populate("positions")
-    .exec(function (err, project) {
-      if (!project)
-        return res.status(404).send("the Project ID was not found!");
-      res.json(project);
-    });
+  // await Project.findById(req.params.id)
+  //   .populate("positions")
+  //   .exec(function (err, project) {
+  //     if (!project)
+  //       return res.status(404).send("the Project ID was not found!");
+  //     res.json(project);
+  //   });
+
+  const project = await Project.findById(req.params.id);
+  if (!project) return res.status(404).send("Project Id was not found.");
+
+  res.json(project);
 };
 
 exports.createProject = async (req, res) => {
@@ -73,6 +81,23 @@ exports.updeSatus = async (req, res) => {
       { _id: req.params.id },
       { status: req.body.status }
     );
+    res.json(result);
+  } catch (ex) {
+    for (feild in ex.errors) res.send(ex.errors[feild].message);
+  }
+};
+
+exports.complateProject = async (req, res) => {
+  const project = await Project.findById(req.params.id);
+  if (!project) return res.status(404).send("the Project ID was not found!");
+
+  const data = {
+    isComplate: req.body.isComplate,
+    status: req.body.status,
+  };
+
+  try {
+    const result = await Project.updateOne({ _id: req.params.id }, data);
     res.json(result);
   } catch (ex) {
     for (feild in ex.errors) res.send(ex.errors[feild].message);

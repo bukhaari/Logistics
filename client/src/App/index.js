@@ -4,8 +4,6 @@ import Loadable from "react-loadable";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
-// import "react-select/dist/";
-
 import "../../node_modules/font-awesome/scss/font-awesome.scss";
 
 import Loader from "./layout/Loader";

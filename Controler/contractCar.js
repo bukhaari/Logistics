@@ -33,6 +33,7 @@ exports.createContract = async (req, res) => {
     project: req.body.projectId,
     position: req.body.positionId,
     signName: req.body.signName,
+    signNumber: req.body.signNumber,
     contractType: req.body.contractType,
     dailyMoney: req.body.dailyMoney,
   });
@@ -65,6 +66,7 @@ exports.updateContract = async (req, res) => {
     project: req.body.projectId,
     position: req.body.positionId,
     signName: req.body.signName,
+    signNumber: req.body.signNumber,
     contractType: req.body.contractType,
     dailyMoney: req.body.dailyMoney,
   };
